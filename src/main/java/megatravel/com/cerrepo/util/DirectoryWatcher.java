@@ -9,7 +9,7 @@ import java.nio.file.*;
 
 public class DirectoryWatcher implements Runnable {
 
-    private static final Logger logger = LoggerFactory.getLogger(DirectoryWatcher.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DirectoryWatcher.class);
 
     private String path;
     private WatchEvent.Kind<?>[] eventKinds;
@@ -45,12 +45,12 @@ public class DirectoryWatcher implements Runnable {
                 // reset the key
                 boolean valid = key.reset();
                 if (!valid) {
-                    logger.info("Watch service stopped watching changes on: {}", path);
+                    LOGGER.info("action=watchService status=stopped directory={}", path);
                     break;
                 }
             }
         } catch (IOException | InterruptedException e) {
-            logger.error(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
 
     }

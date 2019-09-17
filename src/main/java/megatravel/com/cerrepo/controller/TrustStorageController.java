@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/api/trust")
 public class TrustStorageController extends ValidationController {
 
-    private static final Logger logger = LoggerFactory.getLogger(TrustStorageController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrustStorageController.class);
 
     @Autowired
     private TrustStorageService trustStorageService;
@@ -36,7 +36,7 @@ public class TrustStorageController extends ValidationController {
     @GetMapping("{id}")
     //@PreAuthorize("hasAuthority('SECADMIN')")
     public ResponseEntity<List<CertificateDTO>> getCertsFromTruststorage(@PathVariable String id) {
-        logger.info("action=getTruststore certId={} status=success", id);
+        LOGGER.info("action=getTruststore certId={} status=success", id);
         return new ResponseEntity<>(CertificateConverter.fromListX509ToDTO(trustStorageService.
                 getCertsFromTrustStorage(id)), HttpStatus.OK);
     }
@@ -52,7 +52,7 @@ public class TrustStorageController extends ValidationController {
     public ResponseEntity<String> save(@RequestBody String request) throws IOException, ValidationException {
         validateJSON(request, "truststore.json");
         TrustStorageDTO dto = new ObjectMapper().readValue(request, TrustStorageDTO.class);
-        logger.info("action=updateTruststore certSN={}", dto.getTarget());
+        LOGGER.info("action=updateTruststore certSN={}", dto.getTarget());
         trustStorageService.updateTrustStorage(dto.getTarget(), dto.getSerialNumbers());
         return new ResponseEntity<>("Truststore successfully updated!", HttpStatus.OK);
     }

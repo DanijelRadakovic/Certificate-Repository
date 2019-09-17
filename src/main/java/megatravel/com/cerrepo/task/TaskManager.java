@@ -14,7 +14,7 @@ import java.util.concurrent.ScheduledFuture;
 @Component
 public class TaskManager {
 
-    private static final Logger logger = LoggerFactory.getLogger(TaskManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskManager.class);
 
     private Map<String, ScheduledFuture<?>> tasks;
     private ScheduledExecutorService executor;
@@ -26,7 +26,7 @@ public class TaskManager {
 
     public void addTask(Task task) {
         tasks.put(task.serialNumber, executor.schedule(task, task.delay, task.timeUnit));
-        logger.info("action=createTask status=success serialNumber={} taskType={}", task.getSerialNumber(),
+        LOGGER.info("action=createTask status=success serialNumber={} taskType={}", task.getSerialNumber(),
                 task.getClass().getName());
     }
 
@@ -34,9 +34,9 @@ public class TaskManager {
         ScheduledFuture<?> task = tasks.remove(serialNumber);
         if (!task.isCancelled() && !task.isDone()) {
             if (!task.cancel(false)) {
-                logger.error("action=cancelTask status=failure serialNumber={}", serialNumber);
+                LOGGER.error("action=cancelTask status=failure serialNumber={}", serialNumber);
             } else {
-                logger.error("action=cancelTask status=success serialNumber={}", serialNumber);
+                LOGGER.error("action=cancelTask status=success serialNumber={}", serialNumber);
             }
         }
     }
